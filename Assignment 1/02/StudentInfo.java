@@ -16,10 +16,9 @@ public class StudentInfo {
     public static void display() {
 
         System.out.println("************************************************************");
+        System.out.println("*                        KISH DUBEY                        *");
         System.out.println("*                                                          *");
-        System.out.println("*                                                          *");
-        System.out.println("*                                                          *");
-        System.out.println("*                                                          *");
+        System.out.println("*                      Assignment 1                        *");
         System.out.println("************************************************************");
         System.out.println();
 
