@@ -1,7 +1,9 @@
+
+
 import java.util.ArrayList;
 
 /**
- * The class <b>ArrayListSolutionQueue</b> 
+ * The class <b>ArrayListSolutionQueue</b>
  * is an implementation of the interface
  * <b>SolutionQueue</b> which relies on
  * an instance of <b>ArrayList&lt;Solution&gt;</b>
@@ -24,11 +26,12 @@ public class ArrayListSolutionQueue implements SolutionQueue {
     public ArrayListSolutionQueue() {
 
         //Your code here
-        
+        queue = new ArrayList<Solution>();
+
     }
 
     /**
-     * implementation of the method <b>enqueue</b> 
+     * implementation of the method <b>enqueue</b>
      * from the interface <b>SolutionQueue</b>.
      * @param value
      *      The reference to the new element
@@ -36,31 +39,35 @@ public class ArrayListSolutionQueue implements SolutionQueue {
     public void enqueue(Solution value) {
 
         //Your code here
-        
+        if(value == null)
+            return;
+        queue.add(value);
+
     }
 
     /**
-     * implementation of the method <b>dequeue</b> 
+     * implementation of the method <b>dequeue</b>
      * from the interface <b>SolutionQueue</b>.
-     * @return 
+     * @return
      *      The reference to removed Solution
      */
     public Solution dequeue() {
 
         //Your code here
-        
+        return queue.remove(0);
+
     }
 
     /**
-     * implementation of the method <b>isEmpty</b> 
+     * implementation of the method <b>isEmpty</b>
      * from the interface <b>SolutionQueue</b>.
-     * @return 
-     *      true if the queue is empty 
+     * @return
+     *      true if the queue is empty
      */
     public boolean isEmpty() {
 
         //Your code here
-        
+        return queue.size() == 0;
     }
 
 }
