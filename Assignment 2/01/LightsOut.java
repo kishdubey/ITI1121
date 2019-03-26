@@ -12,14 +12,9 @@ import java.util.ArrayList;
 
 public class LightsOut {
 
-     /**
-     * default width of the game.
-     */
-    public static final int DEFAULT_WIDTH = 3;
-     /**
-     * default height of the game.
-     */
-    public static final int DEFAULT_HEIGHT = 3;
+    // Your variables here
+
+
 
     /**
      * The method <b>solve</b> finds all the 
@@ -47,27 +42,8 @@ public class LightsOut {
      */
     public static ArrayList<Solution> solve(int width, int height){
 
-        SolutionQueue q  = new ArrayListSolutionQueue();
-        ArrayList<Solution> solutions  = new ArrayList<Solution>();
-
-        q.enqueue(new Solution(width,height));
-        long start = System.currentTimeMillis();
-        while(!q.isEmpty()){
-            Solution s  = q.dequeue();
-            if(s.isReady()) {
-                if(s.isSuccessful()) {
-                    System.out.println("Solution found in " + (System.currentTimeMillis()-start) + " ms" );
-                    solutions.add(s);
-                }
-            } else {
-                Solution s2 = new Solution(s);
-                s.setNext(true);
-                q.enqueue(s);
-                s2.setNext(false);
-                q.enqueue(s2);
-            }
-        }
-        return solutions;
+        //Your code here
+        
     }
 
     /**
@@ -86,40 +62,9 @@ public class LightsOut {
      */
     public static void main(String[] args) {
 
-
-        int width   = DEFAULT_WIDTH;
-        int height  = DEFAULT_HEIGHT;
-
         StudentInfo.display();
 
-        if (args.length == 2) {
-
-            try{
-                width = Integer.parseInt(args[0]);
-                if(width < 1) {
-                    System.out.println("Invalid width, using default...");
-                    width   = DEFAULT_WIDTH;
-                }
-                height = Integer.parseInt(args[1]);
-                if(height < 1) {
-                    System.out.println("Invalid height, using default...");
-                    height  = DEFAULT_HEIGHT;
-                }
-                
-            } catch(NumberFormatException e){
-                System.out.println("Invalid argument, using default...");
-                width   = DEFAULT_WIDTH;
-                height  = DEFAULT_HEIGHT;
-            }
-        }
-        ArrayList<Solution> results   = solve(width,height);
-        for(int i =0; i < results.size(); i++){
-
-            System.out.println("****");
-            System.out.println(results.get(i));
-
-        }
-        System.out.println("In a board of "+ width + "x" + height +": " + results.size() + " solution" + (results.size() > 1 ? "s." : "."));
-
+        //Your code here
+        
     }
 }

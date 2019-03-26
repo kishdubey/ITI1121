@@ -9,7 +9,7 @@
 public interface SolutionQueue {
 
 	/**
-     * Returns true if the Queue is currently empty
+     * Returns true if the Queue is currenly empty
      * @return 
      *		true if the queue is empty 
      */

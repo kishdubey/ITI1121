@@ -8,28 +8,7 @@
 public class Solution {
 
 
-    /**
-     * our board. board[i][j] is true is in this
-     * solution, the cell (j,i) is tapped
-     */
-    private boolean[][] board;
-
-    /**
-     *  width of the game
-     */
-    private int width;
-
-    /**
-     * height of the game
-     */
-    private int height;
-    
-    /**
-     * how far along have we constructed that solution.
-     * values range between 0 and height*width-1
-     */
-    private int currentIndex;
-
+    // Your variables here
 
 
     /**
@@ -45,12 +24,8 @@ public class Solution {
      */
     public Solution(int width, int height) {
 
-        this.width = width;
-        this.height = height;
-
-        board = new boolean[height][width];
-        currentIndex = 0;
-
+        //Your code here
+        
     }
 
    /**
@@ -63,16 +38,8 @@ public class Solution {
      */
      public Solution(Solution other) {
 
-        this.width = other.width;
-        this.height = other.height;
-        this.currentIndex = other.currentIndex;
-
-        board = new boolean[height][width];
-
-        for(int i = 0; i < currentIndex; i++){
-            board[i/width][i%width] = other.board[i/width][i%width];
-        } 
-
+        //Your code here
+        
     }
 
 
@@ -89,31 +56,8 @@ public class Solution {
 
     public boolean equals(Object other){
 
-        if(other == null) {
-            return false;
-        }
-        if(this.getClass() != other.getClass()) {
-            return false;
-        }
-
-        Solution otherSolution = (Solution) other;
-
-        if(width != otherSolution.width ||
-            height != otherSolution.height ||
-            currentIndex != otherSolution.currentIndex) {
-            return false;
-        }
-
-        for(int i = 0; i < height ; i++){
-            for(int j = 0; j < width; j++) {
-                if(board[i][j] != otherSolution.board[i][j]){
-                    return false;
-                }
-            }
-        }
-
-        return true;
-
+        //Your code here
+        
     }
 
 
@@ -125,7 +69,9 @@ public class Solution {
     * true if the solution is fully specified
     */
     public boolean isReady(){
-        return currentIndex == width*height;
+
+        //Your code here
+        
     }
 
     /** 
@@ -147,12 +93,8 @@ public class Solution {
     */
     public void setNext(boolean nextValue) {
 
-        if(currentIndex >= width*height) {
-            System.out.println("Board already full");
-            return;
-        }
-        board[currentIndex/width][currentIndex%width] = nextValue;
-        currentIndex++;
+        //Your code here
+        
     }
     
     /**
@@ -168,21 +110,10 @@ public class Solution {
     */
     public boolean isSuccessful(){
 
-        if(currentIndex < width*height) {
-            System.out.println("Board not finished");
-            return false;
-        }
+        //Your code here
+        
 
-        for(int i = 0; i < height ; i++){
-            for(int j = 0; j < width; j++) {
-                if(!oddNeighborhood(i,j)){
-                    return false;
-                }
-            }
-        }
-        return true;
     }
-
 
    /**
     * this method ensure that add <b>nextValue</b> at the
@@ -198,31 +129,9 @@ public class Solution {
     */
     public boolean stillPossible(boolean nextValue) {
 
-        if(currentIndex >= width*height) {
-            System.out.println("Board already full");
-            return false;
-        }
-
-        int i = currentIndex/width;
-        int j = currentIndex%width;
-        boolean before = board[i][j];
-        boolean possible = true;
-
-        board[i][j] = nextValue;
+        //Your code here
         
-        if((i > 0) && (!oddNeighborhood(i-1,j))){
-            possible = false;
-        }
-        if(possible && (i == (height-1))) {
-            if((j > 0) && (!oddNeighborhood(i,j-1))){
-                possible = false;
-            }
-            if(possible && (j == (width-1))&& (!oddNeighborhood(i,j))){
-                possible = false;            
-            }
-        }
-        board[i][j] = before;
-        return possible;
+
     }
 
 
@@ -240,82 +149,10 @@ public class Solution {
     */
     public boolean finish(){
 
-
-        int i = currentIndex/width;
-        int j = currentIndex%width;
+        //Your code here
         
-/*
-        if(i == 0 && height > 1) {
-            System.out.println("First line incomplete, can't proceed");
-            return false;
-        }
-*/
-
-        while(currentIndex < height*width) {
-            if(i < height - 1 ) {
-                setNext(!oddNeighborhood(i-1,j));
-                i = currentIndex/width;
-                j = currentIndex%width;
-            } else { //last raw
-                if(j == 0){
-                    setNext(!oddNeighborhood(i-1,j));
-                } else {
-                   if((height > 1) && oddNeighborhood(i-1,j) != oddNeighborhood(i,j-1)){
-                     return false;
-                   }
-                   setNext(!oddNeighborhood(i,j-1));
-                } 
-                i = currentIndex/width;
-                j = currentIndex%width;
-            }
-        }
-        if(!oddNeighborhood(height-1,width-1)){
-            return false;
-        }
-        // here we should return true because we could
-        // successfully finish the board. However, as a
-        // precaution, if someone called the method on
-        // a board that was unfinishable before calling
-        // the method, we do a complete check
-        
-        if(!isSuccessful()) {
-            System.out.println("Warning, method called incorrectly");
-            return false;
-        }
-       
-        return true;
-
     }
 
-    /**
-     * checks if board[i][j] and its neighborhood
-     * have an odd number of values ``true''
-     */
-
-    private boolean oddNeighborhood(int i, int j) {
-        
-        if(i < 0 || i > height - 1 || j < 0 || j > width - 1) {
-            return false;
-        }
-
-        int total = 0;
-        if(board[i][j]){
-            total++;
-        }
-        if((i > 0) && (board[i-1][j])) {
-            total++;
-        }
-        if((i < height -1 ) && (board[i+1][j])) {
-            total++;
-        }
-        if((j > 0) && (board[i][j-1])) {
-            total++;
-        }
-        if((j < (width - 1)) && (board[i][j+1])) {
-            total++;
-        }
-        return (total%2)== 1 ;                
-    }
 
     /**
      * returns a string representation of the solution
@@ -324,20 +161,9 @@ public class Solution {
      *      the string representation
      */
     public String toString() {
-        StringBuffer out = new StringBuffer();
-        out.append("[");
-        for(int i = 0; i < height; i++){
-            out.append("[");
-            for(int j = 0; j < width ; j++) {
-                if (j>0) {
-                    out.append(",");
-                }
-                out.append(board[i][j]);
-            }
-            out.append("]"+(i < height -1 ? ",\n" :""));
-        }
-        out.append("]");
-        return out.toString();
+ 
+        //Your code here
+        
     }
 
 }

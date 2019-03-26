@@ -22,7 +22,9 @@ public class ArrayListSolutionQueue implements SolutionQueue {
      * Constructor, initializes  <b>queue</b>
      */
     public ArrayListSolutionQueue() {
-        queue = new ArrayList<Solution>();
+
+        //Your code here
+        
     }
 
     /**
@@ -32,11 +34,9 @@ public class ArrayListSolutionQueue implements SolutionQueue {
      *      The reference to the new element
      */
     public void enqueue(Solution value) {
-        if(value==null) {
-            System.out.println("can enqueue a null reference");
-            return;
-        }
-        queue.add(value);        
+
+        //Your code here
+        
     }
 
     /**
@@ -46,11 +46,9 @@ public class ArrayListSolutionQueue implements SolutionQueue {
      *      The reference to removed Solution
      */
     public Solution dequeue() {
-        if(isEmpty()) {
-            // will crash
-            System.out.println("call to dequeue on an empty queue... can't make it!");
-        }
-        return queue.remove(0);
+
+        //Your code here
+        
     }
 
     /**
@@ -60,7 +58,9 @@ public class ArrayListSolutionQueue implements SolutionQueue {
      *      true if the queue is empty 
      */
     public boolean isEmpty() {
-        return queue.isEmpty();
+
+        //Your code here
+        
     }
 
 }
