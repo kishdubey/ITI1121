@@ -69,15 +69,6 @@ public class LinkedWordMap implements WordMap {
   *
   * @return the logical size of this WordMap
   */
-  public LinkedWordMap(){
-    head = null;
-    tail = null;
-    size = 0;
-  }
-
-  // private boolean isEmpty(){
-  //   return head==null;
-  // }
 
   public int size() {
     return size;
@@ -169,179 +160,49 @@ public class LinkedWordMap implements WordMap {
   * @throws NullPointerException if the value of the parameter is null
   */
 
-  private boolean isEmpty(){
-    if(size==0){
-      return true;
-    }
-    return false;
-  }
-
-  public void deleteAtPos(int pos)
-    {
-        if (pos == 1)
-        {
-            if (size == 1)
-            {
-                head = null;
-                tail = null;
-                size = 0;
-                return;
-            }
-            head = head.getLinkNext();
-            head.setLinkPrev(tail);
-            tail.setLinkNext(head);
-            size--;
-            return ;
-        }
-        if (pos == size)
-        {
-            tail = tail.getLinkPrev();
-            tail.setLinkNext(head);
-            head.setLinkPrev(tail);
-            size-- ;
-        }
-        Node ptr = head.getLinkNext();
-        for (int i = 2; i <= size; i++)
-        {
-            if (i == pos)
-            {
-                Node p = ptr.getLinkPrev();
-                Node n = ptr.getLinkNext();
-
-                p.setLinkNext(n);
-                n.setLinkPrev(p);
-                size-- ;
-                return;
-            }
-            ptr = ptr.getLinkNext();
-        }
-    }
-
-  private void insertAtStart(String s){
-    Node nptr = new Node(s, null, null, 1);
-    if(head == null){
-      nptr.setLinkNext(nptr);
-      nptr.setLinkPrev(nptr);
-      head = nptr;
-      tail = head;
-    } else {
-      nptr.setLinkPrev(tail);
-      tail.setLinkNext(nptr);
-      head.setLinkPrev(nptr);
-      nptr.setLinkNext(head);
-      head = nptr;
-
-    }
-    size++;
-  }
-
-  private void insertAtEnd(String s){
-    Node nptr = new Node(s, null, null, 1);
-    if (head == null)
-    {
-      nptr.setLinkNext(nptr);
-      nptr.setLinkPrev(nptr);
-      head = nptr;
-      tail = head;
-    }
-    else
-    {
-      nptr.setLinkPrev(tail);
-      tail.setLinkNext(nptr);
-      head.setLinkPrev(nptr);
-      nptr.setLinkNext(head);
-      tail = nptr;
-    }
-    size++;
-  }
-
-  private void insertAtPos(String s, int pos){
-    Node nptr = new Node(s, null, null, 1);
-    if (pos == 1)
-    {
-      insertAtStart(s);
-      return;
-    }
-    Node ptr = head;
-    for (int i = 2; i <= size; i++)
-    {
-      if (i == pos)
-      {
-        Node tmp = ptr.getLinkNext();
-        ptr.setLinkNext(nptr);
-        nptr.setLinkPrev(ptr);
-        nptr.setLinkNext(tmp);
-        tmp.setLinkPrev(nptr);
-      }
-      ptr = ptr.getLinkNext();
-    }
-    size++;
-  }
-
-  private void sortedInsert(String s){
-    int pos = 0;
-    Node tmp = head;
-    boolean flag = false;
-    boolean flag1 = false;
-
-    if(isEmpty()){
-      insertAtStart(s);
-      flag = true;
-    }
-
-    if(!flag){
-      while(tmp.next != head){
-        pos++;
-        if(s.compareTo(tmp.getValue()) < 0){
-          if(tmp == head){
-            insertAtStart(s);
-            flag1 = true;
-          }
-          else{
-            flag1 = true;
-            insertAtPos(s, pos);
-          }
-        }
-          tmp = tmp.next;
-
-      }
-    }
-
-      if(!flag1 && !flag){
-      if(s.compareTo(tmp.getValue()) < 0){
-        insertAtPos(s, pos);
-
-      }
-      insertAtEnd(s);
-    }
-  }
-
-
   public void update(String key) {
-
     if(key == null){
-      throw new NullPointerException();
+      throw new NullPointerException("update; Key cannot be null!");
     }
 
-    Node tmp = head;
-    boolean flag = false;
-
-    if(contains(key)){
-      while(tmp.next!=head){
-        if(tmp.getValue().equals(key)){
-          tmp.setCounter(tmp.getCounter()+1);
-          flag = true;
-          break;
+    if(head == null){
+      head = new Node(key,null,null,1);
+      head.next = head;
+      head.previous = head;
+      size++;
+    }
+    else{
+      Node tmp = head;
+      if(tmp.value.compareTo(key) > 0){
+        Node n = new Node (key, tmp, tmp.previous,1);
+        tmp.previous.next = n;
+        tmp.previous = n;
+        head = n;
+        size++;
+      }
+      else {
+        for (int i = 0; i < size; i++) {
+          int com = tmp.value.compareTo(key);
+          if (com == 0) {
+            tmp.setCounter(tmp.getCounter()+1);
+            return;
+          } else if (com > 0){
+            Node n = new Node(key,tmp,tmp.previous, 1);
+            tmp.previous.next = n;
+            tmp.previous = n;
+            size++;
+            return;
+          }
+          tmp = tmp.next;
         }
-        tmp = tmp.next;
-      }
 
-      if(tmp.getValue().equals(key) && !flag){
-        tmp.setCounter(tmp.getCounter()+1);
+        Node n = new Node(key,tmp,tmp.previous, 1);
+        tmp.previous.next = n;
+        tmp.previous = n;
+        size++;
       }
-    }else{
-      sortedInsert(key);
     }
+
   }
   /**
   * Returns all the keys (words) of this WordMap using their
@@ -351,17 +212,14 @@ public class LinkedWordMap implements WordMap {
   */
 
   public String[] keys() {
-    String[] keyy = new String [this.size];
+    String[] keys = new String[this.size];
     Node tmp = head;
-    int i = 0;
 
-    while(tmp.next!=head){
-      keyy[i] = tmp.getValue();
-
-      i++;
+    for(int i=0; i<size; i++){
+      keys[i] = tmp.getValue();
       tmp = tmp.next;
     }
-    return keyy;
+    return keys;
   }
 
   /**
@@ -375,11 +233,9 @@ public class LinkedWordMap implements WordMap {
   public Integer[] counts() {
     Integer[] count = new Integer [this.size];
     Node tmp = head;
-    int i = 0;
 
-    while(tmp.next!=head){
+    for(int i=0; i<size; i++){
       count[i] = tmp.getCounter();
-      i++;
       tmp = tmp.next;
     }
     return count;

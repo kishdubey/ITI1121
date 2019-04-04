@@ -56,11 +56,44 @@ public class TreeWordMap implements WordMap {
      * @throws NullPointerException if the value of the parameter is null
      */
 
-    public void update(String key) {
+     public void update(String key) {
+         if (key == null) {
+             throw new NullPointerException();
+         }
+         if(root == null){
+             root = new Elem(key);
+             size++;
+         }
+         else{
+             Elem current = root;
+             boolean done = false;
+             while (! done && current != null) {
+                 int test = key.compareTo(current.key);
+                 if (test == 0) {
+                     done = true;
+                     current.count++;
+                 } else if (test < 0) {
+                     if(current.left == null) {
+                         current.left = new Elem(key);
+                         done = true;
+                         size++;
+                     }
+                     else
+                         current = current.left;
+                 } else {
+                     if(current.right == null) {
+                         current.right = new Elem(key);
+                         done = true;
+                         size++;
+                     }
+                     else
+                         current = current.right;
+                 }
+             }
 
-        throw new UnsupportedOperationException("not implemented yet!");
+         }
 
-    }
+     }
 
     /**
      * Returns the count associated with the specified word or 0 if
@@ -106,24 +139,56 @@ public class TreeWordMap implements WordMap {
      * @return all the keys (words)
      */
 
-    public String[] keys() {
+     private int index;
+     public String[] keys() {
+         String[] keys = new String[size];
+         index = 0;
+         recKeys(root, keys);
+         return keys;
+     }
 
-        throw new UnsupportedOperationException("not implemented yet!");
+     private void recKeys(Elem path, String[] keys){
+         if(path.right == null && path.left == null)
+             keys[index++]= path.key;
+         else{
+             if(path.left != null)
+                 recKeys(path.left, keys);
+             keys[index++] = path.key;
+             if(path.right != null)
+                 recKeys(path.right, keys);
+         }
 
-    }
 
-    /**
-     * Returns all the counts associated with keys in this
-     * WordMap. The counts are in the same order as that of the keys
-     * returned by the method keys().
-     *
-     * @return all the counts
-     */
+     }
+     /**
+      * Returns all the counts associated with keys in this
+      * a4.WordMap. The counts are in the same order as that of the keys
+      * returned by the method keys().
+      *
+      * @return all the counts
+      */
 
-    public Integer[] counts() {
+     public Integer[] counts() {
+         Integer[] counts = new Integer[size];
+         index = 0;
+         recCounts(root, counts);
+         return counts;
 
-        throw new UnsupportedOperationException("not implemented yet!");
+     }
+     private void recCounts(Elem path, Integer[] counts){
+         if(path.right == null && path.left == null) {
+             counts[index++] = path.count;
+         }
+         else{
+             if(path.left != null)
+                 recCounts(path.left,  counts);
+             counts[index++] = path.count;
+             if(path.right != null)
+                 recCounts(path.right, counts);
+         }
 
-    }
+
+
+     }
 
 }

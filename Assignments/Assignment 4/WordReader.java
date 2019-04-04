@@ -106,7 +106,6 @@ public class WordReader {
     public Iterator<String> iterator(int size) {
         Iterate iterator = new Iterate(size, content);
         return iterator;
-        //throw new UnsupportedOperationException("not implemented yet!");
 
     }
 
